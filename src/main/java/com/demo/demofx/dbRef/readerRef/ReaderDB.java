@@ -67,7 +67,11 @@ public class ReaderDB {
 
     private Pair<Integer, Person> parsePerson(String line){
         String[] tmp = line.split(",");
-        return new Pair<Integer, Person>(Integer.parseInt(tmp[0]), new Person(tmp[1], tmp[2]));
+        try{
+            return new Pair<Integer, Person>(Integer.parseInt(tmp[0]), new Person(tmp[1], tmp[2]));
+        }
+        catch(NumberFormatException nfe){nfe.printStackTrace();}
+        return null;
     }
 
     public List<Pair<Integer, Person>> readTestFile(){

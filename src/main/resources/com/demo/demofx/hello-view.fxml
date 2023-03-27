@@ -4,23 +4,57 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="720.0" prefWidth="480.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.demofx.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-   <children>
-      <SplitPane prefHeight="146.0" prefWidth="448.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="131.0" prefWidth="350.0">
-               <children>
-                  <TextField fx:id="nomeTextField" prefHeight="26.0" prefWidth="150.0">Inserisci Nome</TextField>
-                   <TextField fx:id="cognomeTextField" layoutX="-5.0" layoutY="27.0">Inserisci Cognome</TextField>
-                   <Button fx:id="addPersonButton" layoutY="53.0" onAction="#onAddPersonButtonClick">Aggiungi Persona</Button>
-                   <Button fx:id="rmvPersonButton" layoutY="78.0" onAction="#onRmvPersonButtonClick">Rimuovi Persona</Button>
-               </children>
-          </AnchorPane>
-        </items>
-      </SplitPane>
-   </children>
-
-</VBox>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import java.net.URL?>
+<BorderPane
+        xmlns="http://javafx.com/javafx/17.0.2-ea"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.demo.demofx.HelloController">
+<top>
+    <BorderPane styleClass="header-section">
+        <left>
+            <Label id="header-text" text="DemoFx"></Label>
+        </left>
+        <right>
+            <Button fx:id="loginButton" text="Account" onAction="#login">
+                <graphic>
+                    <ImageView fitHeight="36" fitWidth="36" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@Microsoft_account-Logo.wine.png"></Image>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </right>
+    </BorderPane>
+</top>
+<left>
+    <VBox styleClass="sidebar-section">
+        <children>
+            <TextField fx:id="nomeTextField" >Nome</TextField>
+            <TextField fx:id="cognomeTextField" >Cognome</TextField>
+            <Button fx:id="addPersonButton" onAction="#onAddPersonButtonClick">Aggiungi Persona</Button>
+            <Button fx:id="rmvPersonButton" onAction="#onRmvPersonButtonClick">Rimuovi Persona</Button>
+        </children>
+    </VBox>
+</left>
+<center>
+    <VBox styleClass="content-section">
+        <children>
+            <Label id="content-header" text="Data View"></Label>
+            <Pane>
+                <TextField fx:id="textArea"></TextField>
+            </Pane>
+        </children>
+    </VBox>
+</center>
+<bottom>
+    <HBox id="footer-section">
+        <children>
+            <Label text="Copyright 2023 Mattia Lunardi"></Label>
+        </children>
+    </HBox>
+</bottom>
+    <stylesheets>
+        <URL value="@demo.css" />
+    </stylesheets>
+</BorderPane>

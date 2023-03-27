@@ -30,6 +30,7 @@ public class DbRef {
         if(DEBUG){
             writerREF.rewriteDB(readerREF.readTestFile());
             this.read();
+            this.printDB();
         }
         if(!db.exists()){
             try{
@@ -54,6 +55,7 @@ public class DbRef {
         if(DEBUG){
             writerREF.rewriteDB(readerREF.readTestFile());
             this.read();
+            this.printDB();
         }
         if (!db.exists()) {
             //create new file
