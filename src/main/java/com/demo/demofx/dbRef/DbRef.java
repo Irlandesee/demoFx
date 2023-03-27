@@ -27,6 +27,10 @@ public class DbRef {
         readerREF = new ReaderDB(db, this);
         writerREF = new WriterDB(db, this);
 
+        if(DEBUG){
+            writerREF.rewriteDB(readerREF.readTestFile());
+            this.read();
+        }
         if(!db.exists()){
             try{
                 boolean res = db.createNewFile();
@@ -35,12 +39,9 @@ public class DbRef {
                 this.count = 0;
             }catch(IOException ioe){ioe.printStackTrace();}
         }else{
-            this.count = readerREF.readLastKey() + 1;
-            System.out.println("File already exists, last key: " + (this.count - 1));
-
-        }
-        if(DEBUG){
-            this.printDB();
+            this.count = readerREF.readLastKey();
+            System.out.println("File already exists, last key: " + this.count);
+            this.count += 1;
         }
     }
     public DbRef(String dbName) {
@@ -50,6 +51,10 @@ public class DbRef {
         this.db = new File(dbName);
         readerREF = new ReaderDB(db, this);
         writerREF = new WriterDB(db, this);
+        if(DEBUG){
+            writerREF.rewriteDB(readerREF.readTestFile());
+            this.read();
+        }
         if (!db.exists()) {
             //create new file
             try {
@@ -61,11 +66,9 @@ public class DbRef {
             }
             this.count = 0;
         }else{
-            this.count = readerREF.readLastKey() + 1;
-            System.out.println("File already exists, last key: " + (this.count - 1));
-        }
-        if(DEBUG){
-            this.printDB();
+            this.count = readerREF.readLastKey();
+            System.out.println("File already exists, last key: " + this.count);
+            this.count += 1;
         }
     }
 
@@ -101,6 +104,18 @@ public class DbRef {
         List<Pair<Integer, Person>> people = this.read();
         for(Pair<Integer, Person> entry: people)
             System.out.println(entry.getKey() + ":" + entry.getValue());
+    }
+
+    private void printTestFile(){
+        List<Pair<Integer, Person>> people = readerREF.readTestFile();
+        for(Pair<Integer, Person> entry: people)
+            System.out.println(entry.getKey() + ":" + entry.getValue());
+    }
+
+    private boolean diff(List<Pair<Integer, Person>> testList, List<Pair<Integer, Person>> l){
+        //TODO: check testList and l length, then if equal, check l's entries against testList
+        //they do not need to be sorted
+        return false;
     }
 
 }

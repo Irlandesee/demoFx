@@ -24,10 +24,7 @@ public class ReaderDB {
             BufferedReader bReader = new BufferedReader(new FileReader(db));
             String line;
             while(((line = bReader.readLine()) != null)){
-                String[] lineSplit = line.split(",");
-                int key = Integer.parseInt(lineSplit[0]);
-                Person p = new Person(lineSplit[1], lineSplit[2]);
-                ris.add(new Pair<Integer, Person>(key, p));
+                ris.add(parsePerson(line));
             }
 
             bReader.close();
@@ -38,13 +35,16 @@ public class ReaderDB {
 
     public long search(Person p){
         try{
-            RandomAccessFile raf = new RandomAccessFile(db.getName(), "rw");
+            RandomAccessFile raf = new RandomAccessFile(db.getName(), "r");
             String line;
+            long pos = raf.getFilePointer();
             while((line = raf.readLine()) != null){
-                Pair<Integer, Person> res = readPerson(line);
+                Pair<Integer, Person> res = parsePerson(line);
+                pos = raf.getFilePointer();
                 if(res.getValue().equals(p)) {
+                    System.out.println(pos);
                     raf.close();
-                    return raf.getFilePointer();
+                    return pos;
                 }
             }
             raf.close();
@@ -65,8 +65,22 @@ public class ReaderDB {
     }
 
 
-    private Pair<Integer, Person> readPerson(String line){
+    private Pair<Integer, Person> parsePerson(String line){
         String[] tmp = line.split(",");
         return new Pair<Integer, Person>(Integer.parseInt(tmp[0]), new Person(tmp[1], tmp[2]));
     }
+
+    public List<Pair<Integer, Person>> readTestFile(){
+        File testFile = new File("testFiles/test.csv");
+        List<Pair<Integer, Person>> res = new LinkedList<Pair<Integer, Person>>();
+        try{
+            BufferedReader bReader = new BufferedReader(new FileReader(testFile));
+            String line;
+            while((line = bReader.readLine()) != null){
+                res.add(parsePerson(line));
+            }
+        }catch(IOException ioe){ioe.printStackTrace();}
+        return res;
+    }
+
 }
