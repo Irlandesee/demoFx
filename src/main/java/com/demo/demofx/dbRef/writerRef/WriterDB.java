@@ -18,7 +18,7 @@ public class WriterDB {
     public void write(int count, Person p){
         try{
             BufferedWriter bWriter = new BufferedWriter(new FileWriter(db, true));
-            String line = count + "," + p.toString();
+            String line = "\n" + count + "," + p.toString();
             bWriter.write(line);
             bWriter.close();
         }catch(IOException ioException){ioException.printStackTrace();}

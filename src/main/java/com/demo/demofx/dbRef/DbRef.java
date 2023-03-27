@@ -18,7 +18,7 @@ public class DbRef {
     private String dbName = "";
 
     private final String defaultDBName = "db.csv";
-
+    private final boolean DEBUG = true;
     private int count;
 
     public DbRef(){
@@ -36,10 +36,12 @@ public class DbRef {
             }catch(IOException ioe){ioe.printStackTrace();}
         }else{
             this.count = readerREF.readLastKey() + 1;
-            System.out.println("File already exists, last key: " +this.count);
+            System.out.println("File already exists, last key: " + (this.count - 1));
 
         }
-
+        if(DEBUG){
+            this.printDB();
+        }
     }
     public DbRef(String dbName) {
         this.dbName = dbName;
@@ -60,14 +62,20 @@ public class DbRef {
             this.count = 0;
         }else{
             this.count = readerREF.readLastKey() + 1;
-            System.out.println("File already exists, last key: " +this.count);
+            System.out.println("File already exists, last key: " + (this.count - 1));
         }
-
+        if(DEBUG){
+            this.printDB();
+        }
     }
 
     public void addPerson(Person p){
         writerREF.write(this.count++, p);
-        System.out.printf("Person added {%d}:{%s}\n", this.count - 1, p);
+        if(DEBUG){
+            System.out.printf("Person added {%d}:{%s}\n", this.count - 1, p);
+            this.printDB();
+        }
+
     }
 
     public boolean rmPerson(Person p){
@@ -77,12 +85,22 @@ public class DbRef {
             System.out.println("Could not find person: " +p.toString());
             return false;
         }
-
-        return writerREF.remove(found, p);
+        boolean res = writerREF.remove(found, p);
+        if(DEBUG){
+            System.out.println("Remove returned: " + res);
+            this.printDB();
+        }
+        return res;
     }
 
     public List<Pair<Integer, Person>> read(){
         return readerREF.read();
+    }
+
+    private void printDB(){
+        List<Pair<Integer, Person>> people = this.read();
+        for(Pair<Integer, Person> entry: people)
+            System.out.println(entry.getKey() + ":" + entry.getValue());
     }
 
 }
