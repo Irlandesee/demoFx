@@ -30,8 +30,8 @@
 <left>
     <VBox styleClass="sidebar-section">
         <children>
-            <TextField fx:id="nomeTextField" >Nome</TextField>
-            <TextField fx:id="cognomeTextField" >Cognome</TextField>
+            <TextField fx:id="nomeTextField">Nome</TextField>
+            <TextField fx:id="cognomeTextField">Cognome</TextField>
             <Button fx:id="addPersonButton" onAction="#onAddPersonButtonClick">Aggiungi Persona</Button>
             <Button fx:id="rmvPersonButton" onAction="#onRmvPersonButtonClick">Rimuovi Persona</Button>
         </children>
@@ -42,7 +42,7 @@
         <children>
             <Label id="content-header" text="Data View"></Label>
             <Pane>
-                <TextField fx:id="textArea"></TextField>
+                <TextArea fx:id="textArea"></TextArea>
             </Pane>
         </children>
     </VBox>

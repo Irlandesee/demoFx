@@ -1,5 +1,6 @@
 package com.demo.demofx.dbRef;
 
+import com.demo.demofx.HelloController;
 import com.demo.demofx.dbRef.readerRef.ReaderDB;
 import com.demo.demofx.dbRef.writerRef.WriterDB;
 import com.demo.demofx.person.Person;
@@ -21,8 +22,11 @@ public class DbRef {
     private final boolean DEBUG = true;
     private int count;
 
-    public DbRef(){
+    private HelloController controller;
+
+    public DbRef(HelloController controller){
         this.dbName = defaultDBName;
+        this.controller = controller;
         this.db = new File(this.dbName);
         readerREF = new ReaderDB(db, this);
         writerREF = new WriterDB(db, this);
@@ -45,8 +49,9 @@ public class DbRef {
             this.count += 1;
         }
     }
-    public DbRef(String dbName) {
+    public DbRef(String dbName, HelloController controller) {
         this.dbName = dbName;
+        this.controller = controller;
         if (dbName.isBlank()) this.dbName = defaultDBName;
 
         this.db = new File(dbName);
@@ -80,7 +85,7 @@ public class DbRef {
             System.out.printf("Person added {%d}:{%s}\n", this.count - 1, p);
             this.printDB();
         }
-
+        controller.refreshTextAreaContent(this.read());
     }
 
     public boolean rmPerson(Person p){
@@ -95,6 +100,7 @@ public class DbRef {
             System.out.println("Remove returned: " + res);
             this.printDB();
         }
+        controller.refreshTextAreaContent(this.read());
         return res;
     }
 
@@ -119,5 +125,7 @@ public class DbRef {
         //they do not need to be sorted
         return false;
     }
+
+    public boolean isDebug(){return this.DEBUG;}
 
 }
