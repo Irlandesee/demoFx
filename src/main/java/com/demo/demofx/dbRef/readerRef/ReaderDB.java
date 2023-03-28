@@ -33,23 +33,32 @@ public class ReaderDB {
     }
 
 
-    public long search(Person p){
+    public boolean search(Person p){
         try{
-            RandomAccessFile raf = new RandomAccessFile(db.getName(), "r");
+            BufferedReader bReader = new BufferedReader(new FileReader(db));
             String line;
-            long pos = raf.getFilePointer();
-            while((line = raf.readLine()) != null){
+            while((line = bReader.readLine()) != null) {
                 Pair<Integer, Person> res = parsePerson(line);
-                pos = raf.getFilePointer();
-                if(res.getValue().equals(p)) {
-                    System.out.println(pos);
-                    raf.close();
-                    return pos;
-                }
+                if(res != null)
+                    if(res.getValue().getNome().equals(p.getNome())
+                            && res.getValue().getCognome().equals(p.getCognome())) return true;
             }
-            raf.close();
         }catch(IOException ioe){ioe.printStackTrace();}
-        return Long.MIN_VALUE;
+        return false;
+    }
+
+    public Integer readPersonKey(Person p){
+        try{
+            BufferedReader bReader = new BufferedReader(new FileReader(db));
+            String line;
+            while((line = bReader.readLine()) != null){
+                Pair<Integer, Person> res = parsePerson(line);
+                if(res != null)
+                    if(res.getValue().getNome().equals(p.getNome())
+                            && res.getValue().getCognome().equals(p.getCognome())) return res.getKey();
+            }
+        }catch(IOException ioe){ioe.printStackTrace();}
+        return Integer.MIN_VALUE;
     }
 
 

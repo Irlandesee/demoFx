@@ -5,7 +5,9 @@ import com.demo.demofx.person.Person;
 import javafx.util.Pair;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WriterDB {
 
@@ -25,6 +27,20 @@ public class WriterDB {
             bWriter.close();
         }catch(IOException ioException){ioException.printStackTrace();}
 
+    }
+
+    public void writeCache(HashMap<Integer, Person> cache){
+        try{
+            BufferedWriter bWriter = new BufferedWriter(new FileWriter(db));
+            StringBuilder builder = new StringBuilder();
+            for(Map.Entry<Integer, Person> entry: cache.entrySet()){
+                builder.append(entry.getKey()).append(":")
+                        .append(entry.getValue().getNome()).append(",")
+                        .append(entry.getValue().getCognome()).append("\n");
+                bWriter.write(builder.toString());
+            }
+            bWriter.close();
+        }catch(IOException ioe){ioe.printStackTrace();}
     }
 
     public boolean remove(long pos, Person p){
